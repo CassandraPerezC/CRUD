@@ -1,0 +1,12 @@
+<?php
+	$title = 'Eliminar Usuario';
+	$this->headTitle($title);
+?>
+
+<h1><?php echo $this->escapeHtml($title); ?> </h1>
+
+<?php
+	$url = $this->url('crud', ['action' => 'delete', 'id' => $user['id']]);
+?>
+<meta http-equiv="refresh" content="3000; url=http://localhost/CRUDZ/public">
+</div>

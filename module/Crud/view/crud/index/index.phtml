@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <!--<script src="../js/alertas.js"></script>-->
+<div class="row">
+
+   <h1 class="userT">Usuarios</h1>
+  <div class="row">
+   <?php if(count($user)>0):?>
+
+    <a href="<?php echo $this->basePath('crud/add'); ?>" class="btn btn-primary btn-default">Agregar</a>
+      <?php header("Content-type: text/html; charset=utf8"); ?>
+  </div>
+
+
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre(s)</th>
+      <th scope="col">Apellido Paterno</th>
+      <th scope="col">Apellido Materno</th>
+      <th scope="col">Acción</th>
+    </tr>
+  </thead>
+    <tbody>
+
+
+      <?php foreach ($user as $user) : ?>
+    <tr>
+        <td><?php echo $user['id']; ?></td>
+        <td><?php echo $user['nombre']; ?></td>
+        <td><?php echo $user['apPat']; ?></td>
+        <td><?php echo $user['apMat']; ?></td>
+        </td>
+
+         <td><a href="<?php echo $this->url('crud', ['action' => 'edit', 'id' =>$user['id']]);?>"class="btn btn-success">Modificar</a>
+        </td>
+
+        <td><a onclick="alertaa(<?php echo $user['id']; ?>)" href="#" class="btn btn-danger"> Eliminar </a></td>
+    </tr>
+     <?php endforeach; ?>
+      <?php else:?>
+      <tr>
+      <center><td>La tabla no contiene datos </td></center>
+      </tr>
+      <?php endif;?>
+    
+    </tbody>
+    </table>
+<script>
+function alertaa(id){
+//alert(id);
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: '¿Esta seguro?',
+  text: "Esta accion es irreversible!",
+  type: 'Precaucion',
+  showCancelButton: true,
+  confirmButtonText : 'Si eliminar!',
+  cancelButtonText: 'No, Eliminar!',
+  reverseButtons: true
+}).then((result) => {
+  if (result.value) {
+    swalWithBootstrapButtons.fire(
+      'Eliminado!',
+      'El usuario a sido eliminado.',
+      'success'
+       )         
+       window.location.href = " <?php echo $this->url('crud', ['action' => "delete", 'id' => $user['id']]); ?>  ";
+    
+
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Cancelado',
+      'El usuario no a sido eliminado:)',
+      'error'
+    )
+  }
+})}
+</script>
+
+
+</html>
